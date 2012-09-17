@@ -593,7 +593,7 @@ sub handle_checkout {
 	# Checkout failed
 	# Checkout Response: not ok, no renewal, don't know mag. media,
 	# no desensitize
-	$resp = sprintf("120NUN%s", Sip::timestamp);
+	$resp = sprintf("120%sUN%s", sipbool($status->renew_ok), Sip::timestamp);
 	$resp .= add_field(FID_INST_ID, $inst);
 	$resp .= add_field(FID_PATRON_ID, $patron_id);
 	$resp .= add_field(FID_ITEM_ID, $item_id);
@@ -1055,7 +1055,7 @@ sub handle_end_patron_session {
 sub handle_fee_paid {
     my ($self, $server) = @_;
     my $ils = $server->{ils};
-    my ($trans_date, $fee_type, $pay_type, $currency) = $self->{fixed_fields};
+    my ($trans_date, $fee_type, $pay_type, $currency) = @{$self->{fixed_fields}};
     my $fields = $self->{fields};
     my ($fee_amt, $inst_id, $patron_id, $terminal_pwd, $patron_pwd);
     my ($fee_id, $trans_id);
