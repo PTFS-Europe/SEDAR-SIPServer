@@ -985,6 +985,7 @@ sub handle_patron_info {
 
         # Custom protocol extension to report patron internet privileges
         $resp .= maybe_add(FID_INET_PROFILE, $patron->inet_privileges);
+        $resp .= maybe_add(FID_ICAM_PROFILE, $patron->inet_privileges);
 
         $resp .= maybe_add(FID_PATRON_INTERNAL_ID, $patron->internal_id);   # another extension
 
