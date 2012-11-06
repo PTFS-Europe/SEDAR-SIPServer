@@ -984,8 +984,10 @@ sub handle_patron_info {
         $resp .= maybe_add(FID_PATRON_CLASS, $patron->ptype);
 
         # Custom protocol extension to report patron internet privileges
-        $resp .= maybe_add(FID_INET_PROFILE, $patron->inet_privileges);
-        $resp .= maybe_add(FID_ICAM_PROFILE, $patron->inet_privileges);
+        my $inet_priv = $patron->inet_privileges();
+        $resp .= maybe_add(FID_INET_PROFILE, $inet_priv);
+        $inet_priv = $inet_priv eq 'No Access' ? 'N' : 'Y';
+        $resp .= maybe_add(FID_ICAM_PROFILE, $inet_priv);
 
         $resp .= maybe_add(FID_PATRON_INTERNAL_ID, $patron->internal_id);   # another extension
 
