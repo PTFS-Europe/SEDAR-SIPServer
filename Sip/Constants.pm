@@ -102,6 +102,7 @@ BEGIN {
         FID_PATRON_BIRTHDATE
         FID_PATRON_CLASS
         FID_INET_PROFILE
+        FID_ICAM_PROFILE
 
         FID_COLLECTION_CODE
         FID_CALL_NUMBER
@@ -254,7 +255,8 @@ use constant {
     FID_PATRON_CLASS           => 'PC',
 
     # SIP Extension for reporting patron internet privileges... application unknown
-    FID_INET_PROFILE           => 'PG',
+    FID_INET_PROFILE           => 'PI',
+    FID_ICAM_PROFILE           => 'PG',
 
     # SIP Extensions by 3M spec: Document Revision 1.20, 02/14/2005
     FID_COLLECTION_CODE        => 'CR',
