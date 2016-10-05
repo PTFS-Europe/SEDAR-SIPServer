@@ -696,7 +696,7 @@ sub sip_protocol_loop {
         my $start = time;
         my $status = Sip::MsgType::handle($input, $self, $expect);
         if ($status eq REQUEST_ACS_RESEND) {
-            alarm $timeout;
+            #alarm $timeout;
             next;
         }
 
