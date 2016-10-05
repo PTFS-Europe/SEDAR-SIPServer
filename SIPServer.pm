@@ -673,7 +673,6 @@ sub sip_protocol_loop {
     my $service = $self->{service};
     my $config  = $self->{config};
     my $input;
-    my $timeout = $keepalive || $self->{service}->{timeout} || $config->{timeout} || 0;
 
     # Now that the terminal has logged in, the first message
     # we recieve must be an SC_STATUS message.  But it might be
@@ -691,9 +690,7 @@ sub sip_protocol_loop {
     #$expect = SC_STATUS;
     $expect = '';
 
-    alarm $timeout; # First loop timeout
-    while ( $input = Sip::read_SIP_packet($fh) ) {
-        alarm 0; # Don't timeout while we are processing
+    while ( $input = Sip::read_SIP_packet(*STDIN) ) {
         $input =~ s/[\r\n]+$//sm;    # Strip off any trailing line ends
 
         my $start = time;
@@ -720,7 +717,5 @@ sub sip_protocol_loop {
 
         # We successfully received and processed what we were expecting
         $expect = '';
-        alarm $timeout; # Next loop timeout
-
     }
 }
