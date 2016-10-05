@@ -83,12 +83,12 @@ foreach my $svc (keys %{$config->{listeners}}) {
 # Otherwise it is "_sip" appended to $USER, if present, or "acs-server" as a fallback.
 #
 
-my $syslog_ident = $ENV{SIP_LOG_IDENT} || ($ENV{USER} ? $ENV{USER} . "_sip" : 'acs-server');
+#my $syslog_ident = $ENV{SIP_LOG_IDENT} || ($ENV{USER} ? $ENV{USER} . "_sip" : 'acs-server');
 
-push @parms,
-    "log_file=Sys::Syslog",
-    "syslog_ident=$syslog_ident",
-    "syslog_facility=" . LOG_SIP;
+#push @parms,
+#    "log_file=Sys::Syslog",
+#    "syslog_ident=$syslog_ident",
+#    "syslog_facility=" . LOG_SIP;
 
 #
 # Server Management: set parameters for the Net::Server personality
@@ -118,7 +118,7 @@ if (defined($config->{'server-params'})) {
     }
 }
 
-print Dumper(@parms);
+#print Dumper(@parms);
 
 # initialize all remaining global variables before 
 # going into listen mode.
