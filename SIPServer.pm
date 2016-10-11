@@ -44,6 +44,7 @@ use Sip::MsgType;
 use Time::HiRes qw/time/;
 
 use Cache::Memcached;
+use Socket::Linux qw(TCP_KEEPINTVL TCP_KEEPIDLE TCP_KEEPCNT);
 
 use constant LOG_SIP => "local6"; # Local alias for the logging facility
 
@@ -147,18 +148,10 @@ sub process_request {
     my ($sockaddr, $port, $proto);
     my $transport;
 
-    # This is kind of kinky, but allows us to avoid requiring Socket::Linux.
-    # A simple "Socket::Linux"->use won't suffice since we need access to
-    # all of it's bareword constants as well.
-    eval <<'    EVAL';
-    use Socket::Linux qw(TCP_KEEPINTVL TCP_KEEPIDLE TCP_KEEPCNT);
     setsockopt($self->{server}->{client}, SOL_SOCKET,  SO_KEEPALIVE, 1);
     setsockopt($self->{server}->{client}, IPPROTO_TCP, TCP_KEEPIDLE, 120);
     setsockopt($self->{server}->{client}, IPPROTO_TCP, TCP_KEEPINTVL, 10);
-    EVAL
 
-    syslog('LOG_DEBUG', 
-        "Consider installing Socket::Linux for TCP keepalive: $@") if $@;
 
     $self->{account} = undef; # New connection, no need to keep login info
     $self->{config} = $config;
